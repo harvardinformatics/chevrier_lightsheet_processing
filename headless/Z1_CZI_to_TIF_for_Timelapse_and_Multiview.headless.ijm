@@ -8,14 +8,14 @@
 //     or Bob Freeman will come after you
 //
 
-debug = 0;
+mdebug = 0;
 
-if (debug) { print("Before setting threads"); }
+if (mdebug) { print("Before setting threads"); }
 run("Memory & Threads...", "parallel=16");
-if (debug) { print("After setting threads"); }
+if (mdebug) { print("After setting threads"); }
 
 macro "Z1 CZI to TIF for Timelapse and Multiview data" { 
-	if (debug) { print("Entering macro statement"); }
+	if (mdebug) { print("Entering macro statement"); }
     if(0){
         Dialog.create("Parameters of your acquisiton");
         Dialog.addMessage("First, define here the parameters of your acquisition.");
@@ -61,7 +61,7 @@ macro "Z1 CZI to TIF for Timelapse and Multiview data" {
         filePath=File.openDialog("Original .CZI file");
         outputDir=getDirectory("Choose an output location");
 	} else {
-		if (debug) { print("starting arg parsing"); }
+		if (mdebug) { print("starting arg parsing"); }
         //numChan
         //numAngle
         //numTime
@@ -114,14 +114,14 @@ macro "Z1 CZI to TIF for Timelapse and Multiview data" {
 	}
 
 // Inside of the output directory, make a directory for each channel.
-    if (debug) { print ("Creating output directories"); }
+    if (mdebug) { print ("Creating output directories"); }
 	for (currChan = 1; currChan <= numChan; currChan++) {
 		chanDir = outputDir + File.separator + chanName[currChan];
 		blah = File.makeDirectory(chanDir);
 	}
 
 // Create markers for elapsed time.
-    if (debug) { print ("Creating markers"); }
+    if (mdebug) { print ("Creating markers"); }
     openElapsed = 0;
     processElapsed = 0;
     timesDone = 0;
@@ -140,7 +140,7 @@ macro "Z1 CZI to TIF for Timelapse and Multiview data" {
 		    // Open the file
 		    run("Bio-Formats Importer", "open=" + filePath + " color_mode=Default specify_range view=Hyperstack stack_order=XYCZT series_" + Angle + " c_begin_" + Angle + "=1 c_end_" + Angle + "=2 c_step_" + Angle + "=1 z_begin_" + Angle + "=1 z_end_" + Angle + "=187 z_step_" + Angle + "=1 t_begin_" + Angle + "=" + Time + " t_end_" + Angle + "=" + Time + " t_step_" + Angle + "=1");
 		    print ("Opened Angle "+ Angle + " Timepoint " + Time);
-		    if (debug) { print ("Downsampling"); }
+		    if (mdebug) { print ("Downsampling"); }
 		    run("Split Channels");
 		    // Downsample and save
             for (currChan = numChan; currChan > 0; currChan--) {
