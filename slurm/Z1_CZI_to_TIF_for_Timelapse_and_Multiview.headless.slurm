@@ -1,5 +1,14 @@
 #!/bin/bash 
 
+set -x
+
+if [ -z $HEADLESS_MACROS_HOME ]
+then
+    printf "%b" "Error! Exported shell variable HEADLESS_MACROS_HOME must be set to\n" >&2
+    printf "%b" "base directory for headless macros and SLURM scripts.\n" >&2
+    exit 1
+fi
+
 #SBATCH -J macro_process_czi        # To give the job a name (move to command line)
 #SBATCH -N 1                        # Number of compute nodes being requested (-nodes)
 #SBATCH -n 16                       # Number of CPUs in each compute node (–ntasks-per-node)
@@ -19,17 +28,24 @@
 FIJI_EXEC_DIR=/n/chevrier_lab/apps/fiji-1.49j
 
 # specify macro that is not built-in /n/sw/centos6/fiji-1.47/plugins/Z1_CZI_to_TIF_for_Timelapse_and_Multiview.ijm
-MACRO_PATH="/n/chevrier_lab/apps/fiji"
+##SLURM_EXEC_DIR=$( cd "$( dirname "$0" )" && pwd )
+MACRO_PATH="$HEADLESS_MACROS_HOME/headless"
 
 # macro to be used (modified version in lab folder)
-MACRO_NAME="Z1_CZI_to_TIF_for_Timelapse_and_Multiview_NC.ijm"
+MACRO_NAME="Z1_CZI_to_TIF_for_Timelapse_and_Multiview.headless.ijm"
 
+# check to ensure filepath and outputdir arguments
+if (( $# != 2 ))
+then
+    printf "%b" "Error. Wrong number of arguments.\n" >&2
+    printf "%b" "Usage: $0 czi_filepath outputdir\n" >&2
+fi
 
 # string usage: numChan|numAngle|numTime|binX|binY|binZ|chanName1|chanName2|chanName3|chanName4|filePath|outputDir
-FILE_PATH=/n/regal/chevrier_lab/11-14_-_1DPI_Left_Side_5x_objective_with_beads_in_glycerol.czi
+FILE_PATH=$1
 
 # must end with '/'
-OUTPUT_DIR=/n/regal/chevrier_lab/
+OUTPUT_DIR=$2
 
 # X|Y|Z (how does the macro process the concatenated parameters)
 MACRO_PARAM="1|6|1|1|1|1|green|red|blank|blank|$FILE_PATH|$OUTPUT_DIR"
