@@ -12,15 +12,15 @@ Before running any of these, you must set LSPROCESSING_HOME to the base folder. 
     
 *CZI to TIF conversion*
 
-```sbatch $LSPROCESSING_HOME/slurm/Z1_CZI_to_TIF_for_Timelapse_and_Multiview.headless.slurm params
+    sbatch $LSPROCESSING_HOME/slurm/Z1_CZI_to_TIF_for_Timelapse_and_Multiview.headless.slurm params
 
 *Bead registration*
 
-```sbatch $LSPROCESSING_HOME/slurm/bead_registration.headless.slurm params
+    sbatch $LSPROCESSING_HOME/slurm/bead_registration.headless.slurm params
 
 *Multi-view fusion*
 
-```sbatch $LSPROCESSING_HOME/slurm/image_fusion.headless.slurm params
+    sbatch $LSPROCESSING_HOME/slurm/image_fusion.headless.slurm params
 
 ## Considerations
 
