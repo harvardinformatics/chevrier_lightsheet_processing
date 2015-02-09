@@ -2,9 +2,9 @@
 
 set -x
 
-if [ -z $HEADLESS_MACROS_HOME ]
+if [ -z $LSPROCESSING_HOME ]
 then
-    printf "%b" "Error! Exported shell variable HEADLESS_MACROS_HOME must be set to\n" >&2
+    printf "%b" "Error! Exported shell variable LSPROCESSING_HOME must be set to\n" >&2
     printf "%b" "base directory for headless macros and SLURM scripts.\n" >&2
     exit 1
 fi
@@ -29,7 +29,7 @@ FIJI_EXEC_DIR=/n/chevrier_lab/apps/fiji-1.49j
 
 # specify macro that is not built-in /n/sw/centos6/fiji-1.47/plugins/Z1_CZI_to_TIF_for_Timelapse_and_Multiview.ijm
 ##SLURM_EXEC_DIR=$( cd "$( dirname "$0" )" && pwd )
-MACRO_PATH="$HEADLESS_MACROS_HOME/headless"
+MACRO_PATH="$LSPROCESSING_HOME/headless"
 
 # macro to be used (modified version in lab folder)
 MACRO_NAME="bead_registration.headless.ijm"
