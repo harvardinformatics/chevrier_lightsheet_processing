@@ -27,26 +27,25 @@ fi
 # set this bash variable if not already set by module load
 FIJI_EXEC_DIR=/n/chevrier_lab/apps/fiji-1.49j
 
-# specify macro that is not built-in /n/sw/centos6/fiji-1.47/plugins/Z1_CZI_to_TIF_for_Timelapse_and_Multiview.ijm
+# grab headless macro location
 ##SLURM_EXEC_DIR=$( cd "$( dirname "$0" )" && pwd )
 MACRO_PATH="$LSPROCESSING_HOME/headless"
 
 # macro to be used (modified version in lab folder)
 MACRO_NAME="bead_registration.headless.ijm"
 
+
 # check to ensure filepath and outputdir arguments
-if (( $# != 1 ))
+if (( $# != 6 ))
 then
     printf "%b" "Error. Wrong number of arguments.\n" >&2
-    printf "%b" "Usage: $0 chan1Dir\n" >&2
+    printf "%b" "Usage: $0 numChan chan1Dir chan2Dir angleRange xyResolution zResolution\n" >&2
+    printf "%b" "\n" >&2
+    printf "%b" "          If only one channel, use 'not_used' for chan2Dir\n" >&2
 fi
 
-# string usage: numChan|chan1Path|chan2Path
-CHAN1DIR=$1
-
-
-# X|Y|Z (how does the macro process the concatenated parameters)
-MACRO_PARAM="1|$CHAN1DIR"
+# parameter string to macro will be "1|/n/regal/rc_admin/bfreeman/chevrier/green|not_used|1-6|0.730|2.000"
+MACRO_PARAM="$1|$2|$3|$4|$5|$6"
 
 
 # load headless frame image buffer
