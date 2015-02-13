@@ -38,17 +38,16 @@ MACRO_NAME="Z1_CZI_to_TIF_for_Timelapse_and_Multiview.headless.ijm"
 if (( $# != 2 ))
 then
     printf "%b" "Error. Wrong number of arguments.\n" >&2
-    printf "%b" "Usage: $0 czi_filepath outputdir\n" >&2
+    printf "%b" "Usage: $0 numChan numAngles czi_filepath outputdir/\n" >&2
 fi
 
 # string usage: numChan|numAngle|numTime|binX|binY|binZ|chanName1|chanName2|chanName3|chanName4|filePath|outputDir
-FILE_PATH=$1
-
-# must end with '/'
-OUTPUT_DIR=$2
-
-# X|Y|Z (how does the macro process the concatenated parameters)
-MACRO_PARAM="1|6|1|1|1|1|green|red|blank|blank|$FILE_PATH|$OUTPUT_DIR"
+NUM_CHAN=$1
+NUM_ANGLES=$2
+FILE_PATH=$3
+OUTPUT_DIR=$4                       # must end with '/'
+# X|Y|Z etc
+MACRO_PARAM="$NUM_CHAN|$NUM_ANGLES|1|1|1|1|green|red|blank|blank|$FILE_PATH|$OUTPUT_DIR"
 
 
 # load headless frame image buffer
