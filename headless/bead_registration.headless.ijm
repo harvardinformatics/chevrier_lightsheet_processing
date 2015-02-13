@@ -64,7 +64,7 @@ macro "Bead-based registration" {
     if (numChan == 1) {
     
         print ("Performing single-channel bead-based registration...");
-        run("Bead-based registration", "select_type_of_registration=Single-channel select_type_of_detection=Difference-of-Gaussian spim_data_directory=" + chan1Path + " pattern_of_spim=spim_TL00{t}_Angle{a}.tif timepoints_to_process=1 angles_to_process=" + angleRange + " bead_brightness=Strong subpixel_localization=[3-dimensional quadratic fit (all detections)] specify_calibration_manually xy_resolution=" + xyResolution + " z_resolution=" + zResolution + " transformation_model=Affine select_reference=[Manually (interactive)] imglib_container=[Cell container (images larger ~2048x2048x450 px)]");
+        run("Bead-based registration", "select_type_of_registration=Single-channel select_type_of_detection=Difference-of-Gaussian spim_data_directory=" + chan1Path + " pattern_of_spim=spim_TL{ttt}_Angle{a}.tif timepoints_to_process=1 angles_to_process=" + angleRange + " bead_brightness=Strong subpixel_localization=[3-dimensional quadratic fit (all detections)] specify_calibration_manually xy_resolution=" + xyResolution + " z_resolution=" + zResolution + " transformation_model=Affine select_reference=[Manually (interactive)] imglib_container=[Cell container (images larger ~2048x2048x450 px)]");
     } else if (numChan == 2) {
     
         print ("Performing multi-channel bead-based registration...");
