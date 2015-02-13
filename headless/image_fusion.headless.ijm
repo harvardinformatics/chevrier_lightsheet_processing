@@ -30,23 +30,21 @@ macro "Multi-view fusion" {
     if (! mdebug) {
         parameter_string = getArgument();
     } else {
-        parameter_string = "1|/n/regal/rc_admin/bfreeman/chevrier/green";
+        parameter_string = "1|/n/regal/rc_admin/bfreeman/chevrier/green|1-6";
     }
     
     // "numChan|chan1Path|chan2Path"
     args = split(parameter_string, "|");
     numChan = parseInt(args[0]);
     chan1Path = args[1];
-    chan2Path = "";
-    if (numChan == 2) {
-        chan2Path = args[2];
-    }
- 
+    angleRange = args[2];
+
     // debug!!
     if (1) {
         print ("Params...");
+        print ("numChan: " + numChan);
         print ("chan1Path: " + chan1Path);
-        print ("chan2Path: " + chan2Path);
+        print ("angleRange: " + angleRange);
     }
     
     // Create markers for elapsed time.
@@ -56,7 +54,7 @@ macro "Multi-view fusion" {
     // run multi-view fusion for single channel
     if (mdebug) { print ("Starting multi-view fusion plugin"); }
 	setBatchMode(true);
-    run("Multi-view fusion", "select_channel=Single-channel spim_data_directory=" + chan1Path + " pattern_of_spim=spim_TL{ttt}_Angle{a}.tif timepoints_to_process=1 angles=1-6 registration=[Individual registration of channel 0] fusion_method=[Fuse into a single image] process_views_in_paralell=All blending downsample_output=1 crop_output_image_offset_x=0 crop_output_image_offset_y=0 crop_output_image_offset_z=0 crop_output_image_size_x=0 crop_output_image_size_y=0 crop_output_image_size_z=0 fused_image_output=[Save 2d-slices, all in one directory]");
+    run("Multi-view fusion", "select_channel=Single-channel spim_data_directory=" + chan1Path + " pattern_of_spim=spim_TL{ttt}_Angle{a}.tif timepoints_to_process=1 angles=" + angleRange + " registration=[Individual registration of channel 0] fusion_method=[Fuse into a single image] process_views_in_paralell=All blending downsample_output=1 crop_output_image_offset_x=0 crop_output_image_offset_y=0 crop_output_image_offset_z=0 crop_output_image_size_x=0 crop_output_image_size_y=0 crop_output_image_size_z=0 fused_image_output=[Save 2d-slices, all in one directory]");
 
     // manage elapsed time
     totalTime = (getTime() - absoluteStart) / (1000 * 60);

@@ -37,16 +37,14 @@ MACRO_PATH="$LSPROCESSING_HOME/headless"
 MACRO_NAME="image_fusion.headless.ijm"
 
 # check to ensure filepath and outputdir arguments
-if (( $# != 1 ))
+if (( $# != 2 ))
 then
     printf "%b" "Error. Wrong number of arguments.\n" >&2
-    printf "%b" "Usage: $0 chan1Dir\n" >&2
+    printf "%b" "Usage: $0 chan1Dir angleRange\n" >&2
 fi
 
-# string usage: numChan|chan1Path|chan2Path
-CHAN1DIR=$1
-# X|Y|Z (how does the macro process the concatenated parameters)
-MACRO_PARAM="1|$CHAN1DIR"
+# string usage: numChan|chan1Path|angleRange 
+MACRO_PARAM="1|$1|$2"
 
 # load headless frame image buffer
 export DISPLAY=:1                                          # to avoid using display (GUI)
