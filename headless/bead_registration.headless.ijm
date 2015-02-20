@@ -29,20 +29,23 @@ macro "Bead-based registration" {
     if (mdebug) { print("Entering macro statement"); }
 
     // get user parameters 
+    // should be in format "numChan|chan1Dir|chan2Dir|angleRange|xyResolution|zResolution"
+    // if only 1 channel, chan2Dir can be something like not_used
+    //
     if (! mdebug) {
         parameter_string = getArgument();
     } else {
         parameter_string = "1|/n/regal/rc_admin/bfreeman/chevrier/green|not_used|1-6|0.730|2.000";
     }
     
-    // "numChan|chan1Path|chan2Path"
+    // "numChan|chan1Dir|chan2Dir|angleRange|xyResolution|zResolution"
     args = split(parameter_string, "|");
     numChan = parseInt(args[0]);
     chan1Path = args[1];
     chan2Path = args[2];
     angleRange = args[3];
     xyResolution = parseFloat(args[4]);
-    zResolution = parseFloat(args[5);
+    zResolution = parseFloat(args[5]);
     
     // debug!!
     if (1) {

@@ -33,7 +33,7 @@ macro "Multi-view fusion" {
         parameter_string = "1|/n/regal/rc_admin/bfreeman/chevrier/green|1-6";
     }
     
-    // "numChan|chan1Path|chan2Path"
+    // "numChan|chan1Path|angleRange"
     args = split(parameter_string, "|");
     numChan = parseInt(args[0]);
     chan1Path = args[1];

@@ -60,7 +60,7 @@ macro "Z1 CZI to TIF for Timelapse and Multiview data" {
     // Get the path to each file and the output directory.
         filePath=File.openDialog("Original .CZI file");
         outputDir=getDirectory("Choose an output location");
-	} else {
+	} else { 
 		if (mdebug) { print("starting arg parsing"); }
         //numChan
         //numAngle

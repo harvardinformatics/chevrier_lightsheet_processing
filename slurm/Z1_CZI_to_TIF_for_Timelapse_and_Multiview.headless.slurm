@@ -1,6 +1,9 @@
 #!/bin/bash
 
-set -x
+if [[ $MACRO_DEBUG ]]
+then
+    set -x                                              # show all steps
+fi
 
 if [ -z $LSPROCESSING_HOME ]
 then
@@ -9,14 +12,14 @@ then
     exit 1
 fi
 
-#SBATCH -J macro_process_czi        # To give the job a name (move to command line)
+#SBATCH -J cz12tif_conversion        # To give the job a name (move to command line)
 #SBATCH -N 1                        # Number of compute nodes being requested (-nodes)
 #SBATCH -n 16                       # Number of CPUs in each compute node (–ntasks-per-node)
-#SBATCH -t 0-2:00                   # Runtime in D-HH:mm
+#SBATCH -t 0-1:00                   # Runtime in D-HH:mm
 #SBATCH -p serial_requeue           # Partition to submit to (other option: serial_requeue)
-#SBATCH --mem=100000                # Memory per node in MB (see also --mem-per-cpu) 
-#SBATCH -o macro_process_pid%j.out      # Log file of run summary Can be specified in shell
-#SBATCH -e macro_process_pid%j.err      #
+#SBATCH --mem=30000                # Memory per node in MB (see also --mem-per-cpu) 
+#SBATCH -o cz12tif_conversion_pid%j.out      # Log file of run summary Can be specified in shell
+#SBATCH -e cz12tif_conversion_pid%j.err      #
 
 # Important note: the number of cores request from SLURM must match the number of
 #   parallel threads specified inside the macro (currently 16)
@@ -27,7 +30,6 @@ fi
 # set this bash variable if not already set by module load
 FIJI_EXEC_DIR=/n/chevrier_lab/apps/fiji-1.49j
 
-# specify macro that is not built-in /n/sw/centos6/fiji-1.47/plugins/Z1_CZI_to_TIF_for_Timelapse_and_Multiview.ijm
 ##SLURM_EXEC_DIR=$( cd "$( dirname "$0" )" && pwd )
 MACRO_PATH="$LSPROCESSING_HOME/headless"
 
@@ -51,8 +53,11 @@ MACRO_PARAM="$NUM_CHAN|$NUM_ANGLES|1|1|1|1|green|red|blank|blank|$FILE_PATH|$OUT
 
 
 # load headless frame image buffer
-export DISPLAY=:1                                          # to avoid using display (GUI)
-Xvfb $DISPLAY -auth /dev/null &                            # headless (no display) GUI
+if [[ ! $MACRO_DEBUG ]]
+then
+    export DISPLAY=:1                                          # to avoid using display (GUI)
+    Xvfb $DISPLAY -auth /dev/null &                            # headless (no display) GUI
+fi
 
 # load the fiji paths into java
 #JAVA_OPTS="-Djava.library.path=$FIJI_HOME"    now done in fiji bash script
@@ -63,7 +68,7 @@ Xvfb $DISPLAY -auth /dev/null &                            # headless (no displa
 # export PATH=$FIJI_HOME:$PATH
 # export LD_LIBRARY_PATH=$FIJI_HOME:$LD_LIBRARY_PATH
 
-$FIJI_EXEC_DIR/fiji --memory=100000m -macro $MACRO_PATH/$MACRO_NAME $MACRO_PARAM
+$FIJI_EXEC_DIR/fiji --memory=30000m -macro $MACRO_PATH/$MACRO_NAME $MACRO_PARAM
 
 #wait
 #)
